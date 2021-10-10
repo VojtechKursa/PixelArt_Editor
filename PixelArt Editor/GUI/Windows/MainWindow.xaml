@@ -8,14 +8,14 @@
         Title="PixelArt Editor" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Menu x:Name="MS_menu" Height="19" VerticalAlignment="Top">
-            <MenuItem Header="File" FontSize="12" IsTabStop="False">
-                <MenuItem Header="New"/>
+            <MenuItem x:Name="Menu_File" Header="File" FontSize="12" IsTabStop="False">
+                <MenuItem x:Name="Menu_File_New" Header="New" Click="Menu_File_New_Click"/>
                 <Separator/>
-                <MenuItem Header="Load"/>
-                <MenuItem Header="Save"/>
-                <MenuItem Header="Save as..."/>
+                <MenuItem x:Name="Menu_File_Load" Header="Load" Click="Menu_File_Load_Click"/>
+                <MenuItem x:Name="Menu_File_Save" Header="Save"/>
+                <MenuItem x:Name="Menu_File_SaveAs" Header="Save as..."/>
                 <Separator/>
-                <MenuItem Header="Close"/>
+                <MenuItem x:Name="Menu_File_CloseProgram" Header="Close program"/>
             </MenuItem>
         </Menu>
         <TabControl x:Name="TC_tabs" Margin="0,19,0,0"/>

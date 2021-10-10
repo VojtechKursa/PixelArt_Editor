@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PixelArt_Editor.GUI;
 using PixelArt_Editor.GUI.TabItemContents;
+using PixelArt_Editor.Data;
 
 namespace PixelArt_Editor.GUI.Windows
 {
@@ -22,6 +23,8 @@ namespace PixelArt_Editor.GUI.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ImageProperties ImageProperties { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,12 +36,31 @@ namespace PixelArt_Editor.GUI.Windows
 
         public void NewPicture()
         {
+            PicturePropertiesWindow dialog = new PicturePropertiesWindow(this);
 
+            if((bool)dialog.ShowDialog())
+            {
+                ImageEditor editor = new ImageEditor(ImageProperties);
+                TabItemHeader header = new TabItemHeader(TC_tabs, ImageProperties.Name, editor);
+                TC_tabs.Items.Add(header);
+
+                ImageProperties = null;
+            }
         }
 
         public void LoadPicture()
         {
 
+        }
+
+        private void Menu_File_New_Click(object sender, RoutedEventArgs e)
+        {
+            NewPicture();
+        }
+
+        private void Menu_File_Load_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPicture();
         }
     }
 }
