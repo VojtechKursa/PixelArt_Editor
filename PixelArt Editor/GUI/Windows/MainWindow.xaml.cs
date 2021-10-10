@@ -18,6 +18,7 @@ using PixelArt_Editor.Data;
 using System.IO;
 using Microsoft.Win32;
 using System.Drawing;
+using PixelArt_Editor.Functions;
 
 namespace PixelArt_Editor.GUI.Windows
 {
