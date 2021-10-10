@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -33,6 +33,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
         ImageProperties imageProperties;
         Bitmap bitmap;
         Color currentColor = Color.Black;
+        Timer lastResize = new Timer();
 
         public ImageEditor(ImageProperties imageProperties)
         {
@@ -41,7 +42,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
             InitializeComponent();
 
-            RefreshImage();
+            CommonConstructor();
         }
 
         public ImageEditor(Bitmap bitmap, string name)
@@ -50,6 +51,22 @@ namespace PixelArt_Editor.GUI.TabItemContents
             this.bitmap = bitmap;
 
             InitializeComponent();
+
+            CommonConstructor();
+        }
+
+        private void CommonConstructor()
+        {
+            lastResize.Interval = 500;
+            lastResize.Enabled = false;
+            lastResize.Tick += LastResize_Tick;
+
+            RefreshImage();
+        }
+
+        private void LastResize_Tick(object sender, EventArgs e)
+        {
+            lastResize.Stop();
 
             RefreshImage();
         }
@@ -174,6 +191,8 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)  //Resize and reposition Img_image
         {
+            lastResize.Stop();
+
             double bitmapRatio = bitmap.Width / (double)bitmap.Height;
             double canvasRatio = Canvas.ActualWidth / Canvas.ActualHeight;
 
@@ -191,6 +210,8 @@ namespace PixelArt_Editor.GUI.TabItemContents
             double horizontalMargin = Canvas.ActualWidth / 2 - Img_image.Width / 2;
             double verticalMargin = Canvas.ActualHeight / 2 - Img_image.Height / 2;
             Img_image.Margin = new Thickness(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
+
+            lastResize.Start();
         }
 
         private void ImageEditor_GotFocus(object sender, RoutedEventArgs e)
