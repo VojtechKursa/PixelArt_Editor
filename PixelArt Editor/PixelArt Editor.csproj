@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Functions\Converters.cs" />
     <Compile Include="Data\ImageProperties.cs" />
+    <Compile Include="Functions\IO.cs" />
     <Compile Include="GUI\MessageBoxes.cs" />
     <Compile Include="GUI\TabItemContent.cs" />
     <Compile Include="GUI\TabItemHeader.cs" />

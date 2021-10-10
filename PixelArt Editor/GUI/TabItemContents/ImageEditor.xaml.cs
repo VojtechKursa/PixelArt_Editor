@@ -39,6 +39,16 @@ namespace PixelArt_Editor.GUI.TabItemContents
             RefreshImage();
         }
 
+        public ImageEditor(Bitmap bitmap, string name)
+        {
+            imageProperties = new ImageProperties(name, bitmap.Width, bitmap.Height, Color.White);
+            this.bitmap = bitmap;
+
+            InitializeComponent();
+
+            RefreshImage();
+        }
+
         private Bitmap GenerateEmptyBitmap(int width, int height, Color backgroundColor)
         {
             Bitmap bitmap = new Bitmap(width, height);

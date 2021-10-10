@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using PixelArt_Editor.GUI;
 using PixelArt_Editor.GUI.TabItemContents;
 using PixelArt_Editor.Data;
+using System.IO;
+using Microsoft.Win32;
+using System.Drawing;
 
 namespace PixelArt_Editor.GUI.Windows
 {
@@ -38,11 +41,11 @@ namespace PixelArt_Editor.GUI.Windows
         {
             PicturePropertiesWindow dialog = new PicturePropertiesWindow(this);
 
-            if((bool)dialog.ShowDialog())
+            if ((bool)dialog.ShowDialog())
             {
                 ImageEditor editor = new ImageEditor(ImageProperties);
-                TabItemHeader header = new TabItemHeader(TC_tabs, ImageProperties.Name, editor);
-                TC_tabs.Items.Add(header);
+
+                AddImageEditor(editor, ImageProperties.Name);
 
                 ImageProperties = null;
             }
@@ -50,7 +53,30 @@ namespace PixelArt_Editor.GUI.Windows
 
         public void LoadPicture()
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+            //Add filter and stuff later
 
+            if ((bool)dialog.ShowDialog())
+            {
+                Bitmap bitmap = null;
+
+                try
+                {
+                    bitmap = new Bitmap(dialog.FileName);
+                }
+                catch
+                {
+                    MessageBoxes.ShowError("Error during image loading.");
+                }
+
+                if (bitmap != null)
+                {
+                    string name = Functions.IO.GetNameOfFile(dialog.FileName);
+                    ImageEditor editor = new ImageEditor(bitmap, name);
+
+                    AddImageEditor(editor, name);
+                }
+            }
         }
 
         private void Menu_File_New_Click(object sender, RoutedEventArgs e)
@@ -61,6 +87,14 @@ namespace PixelArt_Editor.GUI.Windows
         private void Menu_File_Load_Click(object sender, RoutedEventArgs e)
         {
             LoadPicture();
+        }
+
+        private void AddImageEditor(ImageEditor editor, string name)
+        {
+            TabItemHeader header = new TabItemHeader(TC_tabs, name, editor);
+            TC_tabs.Items.Add(header);
+
+            TC_tabs.SelectedIndex = TC_tabs.Items.Count - 1;
         }
     }
 }
