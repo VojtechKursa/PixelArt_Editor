@@ -15,10 +15,7 @@ namespace PixelArt_Editor.GUI
         {
             TabControl = parent;
             Header = header;
-
-            Grid grid = new Grid();
-            grid.Children.Add(content);
-            Content = grid;
+            Content = content;
 
             content.Header = this;
         }
