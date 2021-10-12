@@ -2,16 +2,15 @@
 using PixelArt_Editor.Functions;
 using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
 
 namespace PixelArt_Editor.GUI.Windows
 {
     /// <summary>
-    /// Interaction logic for PicturePropertiesWindow.xaml
+    /// Interaction logic for ImagePropertiesWindow.xaml
     /// </summary>
-    public partial class PicturePropertiesWindow : Window
+    public partial class ImagePropertiesWindow : Window
     {
         #region Variables
 
@@ -22,12 +21,36 @@ namespace PixelArt_Editor.GUI.Windows
 
         #region Constructors
 
-        public PicturePropertiesWindow(MainWindow mainWindow)
+        public ImagePropertiesWindow(MainWindow mainWindow)
         {
             InitializeComponent();
 
             this.mainWindow = mainWindow;
             defaultBackgroundColor = Color.White;
+
+            CM_backColor.BaseColor = Color.White;
+            CM_backColor.UpdateBaseColor();
+            CM_backColor.ColorChanged += CM_backColor_ColorChanged;
+        }
+
+        public ImagePropertiesWindow(MainWindow mainWindow, ImageProperties properties) : this(mainWindow)
+        {
+            defaultBackgroundColor = properties.BackgroundColor;
+            UpdateRectangleColor();
+
+            TB_name.Text = properties.Name;
+            TB_height.Text = properties.Height.ToString();
+            TB_width.Text = properties.Width.ToString();
+
+            if (properties.ResizeMode != ImageResizeMode.Unset)
+            {
+                if (properties.ResizeMode == ImageResizeMode.Centered)
+                    CB_resizeMode.SelectedIndex = 0;
+                else
+                    CB_resizeMode.SelectedIndex = 1;
+            }
+
+            CB_resizeMode.IsEnabled = true;
         }
 
         #endregion
@@ -53,19 +76,9 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
-        private void B_changeBackColor_Click(object sender, RoutedEventArgs e)
+        private void CM_backColor_ColorChanged(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                defaultBackgroundColor = dialog.Color;
-                UpdateRectangleColor();
-            }
-        }
-
-        private void B_changeBackColor_ToTransparent_Click(object sender, RoutedEventArgs e)
-        {
-            defaultBackgroundColor = Color.FromArgb(0, 255, 255, 255);
+            defaultBackgroundColor = CM_backColor.Color;
             UpdateRectangleColor();
         }
 
@@ -97,7 +110,19 @@ namespace PixelArt_Editor.GUI.Windows
                 return null;
             }
 
-            return new ImageProperties(TB_name.Text, width, height, defaultBackgroundColor);
+            if (!CB_resizeMode.IsEnabled)
+                return new ImageProperties(TB_name.Text, width, height, defaultBackgroundColor);
+            else
+            {
+                ImageResizeMode resizeMode;
+
+                if (CB_resizeMode.SelectedIndex == 0)
+                    resizeMode = ImageResizeMode.Centered;
+                else
+                    resizeMode = ImageResizeMode.BottomRight;
+
+                return new ImageProperties(TB_name.Text, width, height, defaultBackgroundColor, resizeMode);
+            }
         }
 
         private void UpdateRectangleColor()

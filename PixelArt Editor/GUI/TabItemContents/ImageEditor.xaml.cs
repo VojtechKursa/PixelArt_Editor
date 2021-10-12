@@ -1,4 +1,6 @@
 ﻿using PixelArt_Editor.Data;
+using PixelArt_Editor.Functions;
+using PixelArt_Editor.GUI.Modules;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
@@ -15,6 +17,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         public string SaveLocation { get; set; } = null;
         public ImageFormat SaveFormat { get; set; } = null;
+        public ImageEditorModule EditorModule { get => imageEditorModule; }
 
         #endregion
 
@@ -22,7 +25,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         public ImageEditor(ImageProperties imageProperties)
         {
-            Bitmap bitmap = GenerateEmptyBitmap(imageProperties.Width, imageProperties.Height, imageProperties.BackgroundColor);
+            Bitmap bitmap = Bitmaps.GenerateEmptyBitmap(imageProperties.Width, imageProperties.Height, imageProperties.BackgroundColor);
 
             InitializeComponent();
 
@@ -47,21 +50,6 @@ namespace PixelArt_Editor.GUI.TabItemContents
             imageEditorModule.ToolbarModule = toolbar;
 
             imageEditorModule.RefreshImage();
-        }
-
-        private Bitmap GenerateEmptyBitmap(int width, int height, Color backgroundColor)
-        {
-            Bitmap bitmap = new Bitmap(width, height);
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    bitmap.SetPixel(x, y, backgroundColor);
-                }
-            }
-
-            return bitmap;
         }
 
         #endregion
@@ -90,7 +78,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         private void ImageEditor_GotFocus(object sender, RoutedEventArgs e)
         {
-            imageEditorModule.RefreshImage();
+            imageEditorModule.Init();
         }
 
         #endregion

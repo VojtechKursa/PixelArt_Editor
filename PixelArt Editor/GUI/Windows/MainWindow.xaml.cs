@@ -38,7 +38,7 @@ namespace PixelArt_Editor.GUI.Windows
 
         public void NewPicture()
         {
-            PicturePropertiesWindow dialog = new PicturePropertiesWindow(this);
+            ImagePropertiesWindow dialog = new ImagePropertiesWindow(this);
 
             if ((bool)dialog.ShowDialog())
             {
@@ -211,17 +211,38 @@ namespace PixelArt_Editor.GUI.Windows
             Close();
         }
 
+        private void Menu_Image_Properties_Click(object sender, RoutedEventArgs e)
+        {
+            ImageEditor editor = GetSelectedImageEditor();
+
+            if (editor != null)
+            {
+                ImagePropertiesWindow window = new ImagePropertiesWindow(this, editor.EditorModule.ImageProperties);
+
+                if ((bool)window.ShowDialog())
+                {
+                    editor.EditorModule.ChangeProperties(ImageProperties);
+
+                    editor.Header.Header = ImageProperties.Name;
+
+                    ImageProperties = null;
+                }
+            }
+        }
+
         private void TC_tabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (GetSelectedImageEditor() != null)
             {
                 Menu_File_Save.IsEnabled = true;
                 Menu_File_SaveAs.IsEnabled = true;
+                Menu_Image.IsEnabled = true;
             }
             else
             {
                 Menu_File_Save.IsEnabled = false;
                 Menu_File_SaveAs.IsEnabled = false;
+                Menu_Image.IsEnabled = false;
             }
         }
 

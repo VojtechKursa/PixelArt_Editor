@@ -111,6 +111,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Tools.cs" />
+    <Compile Include="Functions\Bitmaps.cs" />
     <Compile Include="Functions\Converters.cs" />
     <Compile Include="Data\ImageProperties.cs" />
     <Compile Include="Functions\IO.cs" />

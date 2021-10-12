@@ -1,4 +1,5 @@
 ﻿using PixelArt_Editor.Data;
+using PixelArt_Editor.Functions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -43,6 +44,9 @@ namespace PixelArt_Editor.GUI.Modules
         {
             InitializeComponent();
 
+            Img_image.Width = 0;
+            Img_image.Height = 0;
+
             lastResize.Interval = 500;
             lastResize.Enabled = false;
             lastResize.Tick += LastResize_Tick;
@@ -52,6 +56,13 @@ namespace PixelArt_Editor.GUI.Modules
 
         #region Methods
 
+        public void Init()
+        {
+            UpdateImageSize();
+            lastResize.Stop();
+            RefreshImage();
+        }
+
         public void RefreshImage()
         {
             Bitmap exportBitmap = CreateExportBitmap();
@@ -59,12 +70,60 @@ namespace PixelArt_Editor.GUI.Modules
             Img_image.Source = BitmapToBitmapImage(exportBitmap);
         }
 
+        public void ChangeProperties(ImageProperties newProperties)
+        {
+            if (newProperties.ResizeMode != ImageResizeMode.Unset)
+            {
+                Bitmap newBitmap = Bitmaps.GenerateEmptyBitmap(newProperties.Width, newProperties.Height, newProperties.BackgroundColor);
+
+                if (newProperties.ResizeMode == ImageResizeMode.BottomRight)
+                {
+                    int horizontalLimit = newBitmap.Width < Bitmap.Width ? newBitmap.Width : Bitmap.Width;
+                    int verticalLimit = newBitmap.Height < Bitmap.Height ? newBitmap.Height : Bitmap.Height;
+
+                    //Copy what I can
+                    for (int y = 0; y < verticalLimit; y++)
+                    {
+                        for (int x = 0; x < horizontalLimit; x++)
+                        {
+                            newBitmap.SetPixel(x, y, Bitmap.GetPixel(x, y));
+                        }
+                    }
+
+                    //Fill right side if necessary
+                    for (int y = 0; y < newBitmap.Height; y++)
+                    {
+                        for (int x = Bitmap.Width; x < newBitmap.Width; x++)
+                        {
+                            newBitmap.SetPixel(x, y, newProperties.BackgroundColor);
+                        }
+                    }
+
+                    //Fill bottom side if necessary
+                    for (int y = Bitmap.Width; y < newBitmap.Height; y++)
+                    {
+                        for (int x = 0; x < newBitmap.Width; x++)
+                        {
+                            newBitmap.SetPixel(x, y, newProperties.BackgroundColor);
+                        }
+                    }
+                }
+
+                Bitmap = newBitmap;
+                ImageProperties = newProperties;
+
+                UpdateImageSize();
+                lastResize.Stop();
+                RefreshImage();
+            }
+        }
+
         private Bitmap CreateExportBitmap()
         {
-            if (Img_image.ActualWidth != 0 && Img_image.ActualHeight != 0)
+            if (Img_image.Width != 0 && Img_image.Height != 0)
             {
                 //Initialize Bitmap and Graphics
-                Bitmap exportBitmap = new Bitmap((int)Img_image.ActualWidth, (int)Img_image.ActualHeight);
+                Bitmap exportBitmap = new Bitmap((int)Img_image.Width, (int)Img_image.Height);
 
                 Graphics graphics = Graphics.FromImage(exportBitmap);
                 graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
@@ -147,6 +206,39 @@ namespace PixelArt_Editor.GUI.Modules
             return bitmapImage;
         }
 
+        public void UpdateImageSize()
+        {
+            if (Bitmap != null)
+            {
+                lastResize.Stop();
+
+                double bitmapRatio = Bitmap.Width / (double)Bitmap.Height;
+                double canvasRatio = Canvas.ActualWidth / Canvas.ActualHeight;
+
+                double imageWidth;
+                double imageHeight;
+
+                if (bitmapRatio > canvasRatio)    //Limited by width of Canvas
+                {
+                    imageWidth = Canvas.ActualWidth;
+                    imageHeight = (1 / bitmapRatio) * imageWidth;
+                }
+                else    //Limited by height of Canvas
+                {
+                    imageHeight = Canvas.ActualHeight;
+                    imageWidth = bitmapRatio * imageHeight;
+                }
+
+                double horizontalMargin = Canvas.ActualWidth / 2 - imageWidth / 2;
+                double verticalMargin = Canvas.ActualHeight / 2 - imageHeight / 2;
+                Img_image.Margin = new Thickness(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
+                Img_image.Height = imageHeight;
+                Img_image.Width = imageWidth;
+
+                lastResize.Start();
+            }
+        }
+
         #endregion
 
         #region Event handlers
@@ -171,30 +263,7 @@ namespace PixelArt_Editor.GUI.Modules
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)  //Resize and reposition Img_image
         {
-            if (Bitmap != null)
-            {
-                lastResize.Stop();
-
-                double bitmapRatio = Bitmap.Width / (double)Bitmap.Height;
-                double canvasRatio = Canvas.ActualWidth / Canvas.ActualHeight;
-
-                if (bitmapRatio > canvasRatio)    //Limited by width of Canvas
-                {
-                    Img_image.Width = Canvas.ActualWidth;
-                    Img_image.Height = (1 / bitmapRatio) * Img_image.Width;
-                }
-                else    //Limited by height of Canvas
-                {
-                    Img_image.Height = Canvas.ActualHeight;
-                    Img_image.Width = bitmapRatio * Img_image.Height;
-                }
-
-                double horizontalMargin = Canvas.ActualWidth / 2 - Img_image.Width / 2;
-                double verticalMargin = Canvas.ActualHeight / 2 - Img_image.Height / 2;
-                Img_image.Margin = new Thickness(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
-
-                lastResize.Start();
-            }
+            UpdateImageSize();
         }
 
         private void LastResize_Tick(object sender, EventArgs e)
