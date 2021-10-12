@@ -82,24 +82,6 @@ namespace PixelArt_Editor.GUI.Modules
                             newBitmap.SetPixel(x, y, Bitmap.GetPixel(x, y));
                         }
                     }
-
-                    //Fill right side if necessary
-                    for (int y = 0; y < newBitmap.Height; y++)
-                    {
-                        for (int x = Bitmap.Width; x < newBitmap.Width; x++)
-                        {
-                            newBitmap.SetPixel(x, y, newProperties.BackgroundColor);
-                        }
-                    }
-
-                    //Fill bottom side if necessary
-                    for (int y = Bitmap.Width; y < newBitmap.Height; y++)
-                    {
-                        for (int x = 0; x < newBitmap.Width; x++)
-                        {
-                            newBitmap.SetPixel(x, y, newProperties.BackgroundColor);
-                        }
-                    }
                 }
 
                 Bitmap = newBitmap;
