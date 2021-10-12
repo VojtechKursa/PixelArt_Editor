@@ -197,5 +197,10 @@ namespace PixelArt_Editor.GUI.Windows
                 Menu_File_SaveAs.IsEnabled = false;
             }
         }
+
+        private void Menu_File_CloseProgram_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

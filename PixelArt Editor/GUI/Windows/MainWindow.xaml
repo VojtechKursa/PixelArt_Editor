@@ -15,7 +15,7 @@
                 <MenuItem x:Name="Menu_File_Save" Header="Save" Click="Menu_File_Save_Click" IsEnabled="False"/>
                 <MenuItem x:Name="Menu_File_SaveAs" Header="Save as..." Click="Menu_File_SaveAs_Click" IsEnabled="False"/>
                 <Separator/>
-                <MenuItem x:Name="Menu_File_CloseProgram" Header="Close program"/>
+                <MenuItem x:Name="Menu_File_CloseProgram" Header="Close program" Click="Menu_File_CloseProgram_Click"/>
             </MenuItem>
         </Menu>
         <TabControl x:Name="TC_tabs" Margin="0,19,0,0" SelectionChanged="TC_tabs_SelectionChanged"/>
