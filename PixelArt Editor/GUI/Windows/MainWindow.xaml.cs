@@ -111,7 +111,7 @@ namespace PixelArt_Editor.GUI.Windows
                 SaveFileDialog dialog = new SaveFileDialog()
                 {
                     AddExtension = true,
-                    CreatePrompt = true,
+                    CreatePrompt = false,
                     OverwritePrompt = true,
                     Filter = "PNG (*.png)|*.png|JPEG (*.jpg; *.jpeg)|*.jpg;*.jpeg|Bitmap (*.bmp)|*.bmp|GIF (*.gif)|*.gif|ICON (*.icon)|*.icon|TIFF (*.tiff; *.tif)|*.tiff;*.tif",
                     ValidateNames = true,

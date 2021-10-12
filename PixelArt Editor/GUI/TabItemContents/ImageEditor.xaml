@@ -10,10 +10,10 @@
     <Grid>
         <Grid x:Name="Grid_tools" HorizontalAlignment="Right" Width="120">
             <RadioButton x:Name="RB_color1" Content="Color 1" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="ColorSelectionChanged_EventHandler"/>
-            <Modules:ColorModule x:Name="CM_color1" Margin="20,30,10,0" Height="55" VerticalAlignment="Top"/>
+            <Modules:ColorModule x:Name="CM_color1" Margin="20,30,10,0" Height="62" VerticalAlignment="Top"/>
 
-            <RadioButton x:Name="RB_color2" Content="Color 2" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Checked="ColorSelectionChanged_EventHandler"/>
-            <Modules:ColorModule x:Name="CM_color2" Margin="20,120,10,0" Height="55" VerticalAlignment="Top"/>
+            <RadioButton x:Name="RB_color2" Content="Color 2" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Checked="ColorSelectionChanged_EventHandler"/>
+            <Modules:ColorModule x:Name="CM_color2" Margin="20,130,10,0" Height="62" VerticalAlignment="Top"/>
         </Grid>
         <Canvas x:Name="Canvas" Margin="10,10,125,10" SizeChanged="Canvas_SizeChanged">
             <Image x:Name="Img_image" MouseDown="Img_image_MouseDown" HorizontalAlignment="Center" VerticalAlignment="Center"/>

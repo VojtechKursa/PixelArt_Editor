@@ -186,7 +186,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
         {
             MemoryStream memoryStream = new MemoryStream();
 
-            bitmap.Save(memoryStream, ImageFormat.Bmp);
+            bitmap.Save(memoryStream, ImageFormat.Png);
             memoryStream.Position = 0;
 
             BitmapImage bitmapImage = new BitmapImage();

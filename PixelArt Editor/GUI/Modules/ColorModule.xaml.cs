@@ -13,20 +13,28 @@ namespace PixelArt_Editor.GUI.Modules
     /// </summary>
     public partial class ColorModule : UserControl
     {
+        public int Alpha { get; set; } = 255;
+        public Color BaseColor { get; set; } = Color.Black;
+
         public Color Color { get; set; } = Color.Black;
 
         public event EventHandler ColorChanged;
 
         public ColorModule()
         {
+            ColorChanged += ColorChanged_EventHandler;
+
             InitializeComponent();
 
             Rect_color.Fill = new SolidColorBrush(Converters.ConvertColor(Color));
-
-            ColorChanged += ColorChanged_EventHandler;
         }
 
-        private void B_changeColor_Click(object sender, RoutedEventArgs e)
+        private void ColorChanged_EventHandler(object sender, EventArgs args)
+        {
+            Rect_color.Fill = new SolidColorBrush(Converters.ConvertColor(Color));
+        }
+
+        private void ChangeColor_EventHandler(object sender, RoutedEventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog()
             {
@@ -38,15 +46,37 @@ namespace PixelArt_Editor.GUI.Modules
 
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                Color = colorDialog.Color;
-                Rect_color.Fill = new SolidColorBrush(Converters.ConvertColor(Color));
+                BaseColor = colorDialog.Color;
+                Color = Color.FromArgb(Alpha, BaseColor);
 
                 ColorChanged.Invoke(this, new EventArgs());
             }
         }
 
-        //Default event handler so exception is not thrown when the event is invoked with no eventhandlers added
-        private void ColorChanged_EventHandler(object sender, EventArgs args)
-        { }
+        private void TB_alpha_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            int alpha = -1;
+            try
+            {
+                alpha = Convert.ToInt32(TB_alpha.Text);
+            }
+            catch
+            { }
+
+            if (alpha < 0 || alpha > 255)
+                ResetAlpha();
+            else
+            {
+                Alpha = alpha;
+                Color = Color.FromArgb(alpha, BaseColor);
+
+                ColorChanged.Invoke(this, new EventArgs());
+            }
+        }
+
+        private void ResetAlpha()
+        {
+            TB_alpha.Text = Color.A.ToString();
+        }
     }
 }
