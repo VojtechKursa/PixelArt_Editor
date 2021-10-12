@@ -8,7 +8,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
     /// </summary>
     public partial class InitialTab : TabItemContent
     {
-        private MainWindow mainWindow;
+        private readonly MainWindow mainWindow;
 
         public InitialTab(MainWindow mainWindow)
         {

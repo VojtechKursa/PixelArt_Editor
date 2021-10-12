@@ -13,7 +13,7 @@ namespace PixelArt_Editor.GUI.Windows
     /// </summary>
     public partial class PicturePropertiesWindow : Window
     {
-        private MainWindow mainWindow;
+        private readonly MainWindow mainWindow;
         private Color defaultBackgroundColor;
 
         public PicturePropertiesWindow(MainWindow mainWindow)
