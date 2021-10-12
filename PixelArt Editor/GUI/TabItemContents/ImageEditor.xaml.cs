@@ -124,19 +124,21 @@ namespace PixelArt_Editor.GUI.TabItemContents
                 graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
 
-                //Declare variables for colors and drawing the pixels
-                Color pixelColor;
-                Brush brush;
-                int penThickness = 3;
-                Pen pen = new Pen(Color.Black, penThickness);
-                RectangleF pixel = new RectangleF();
-
-
-                //Calculate the size of the pixels
+                //Calculate the size of pixels
                 float pixelWidth = exportBitmap.Width / (float)bitmap.Width;
                 float pixelHeight = exportBitmap.Height / (float)bitmap.Height;
 
-                pixel.Size = new SizeF(pixelWidth, pixelHeight);
+
+                //Declare variables for colors and drawing the pixels
+                Color pixelColor;
+                Brush brush;
+                float penThickness = pixelWidth / 20;
+                int penAlpha = 255;
+                Pen pen = new Pen(Color.FromArgb(penAlpha, Color.Black), penThickness);
+                RectangleF pixel = new RectangleF()
+                {
+                    Size = new SizeF(pixelWidth, pixelHeight)
+                };
 
 
                 //Create list for pixels that need to have their outline re-drawn later
@@ -164,7 +166,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
 
                 //Redraw outline of pixels that need white outline
-                pen = new Pen(Color.White, penThickness);
+                pen = new Pen(Color.FromArgb(penAlpha, Color.White), penThickness);
 
                 foreach (int[] coord in whiteOutlinedPixels)
                 {
