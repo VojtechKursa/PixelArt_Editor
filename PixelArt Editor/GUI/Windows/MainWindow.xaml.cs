@@ -13,7 +13,13 @@ namespace PixelArt_Editor.GUI.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Variables and Properties
+
         public ImageProperties ImageProperties { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public MainWindow()
         {
@@ -23,6 +29,12 @@ namespace PixelArt_Editor.GUI.Windows
             TabItemHeader initialTabHeader = new TabItemHeader(TC_tabs, "Start screen", initialTab);
             TC_tabs.Items.Add(initialTabHeader);
         }
+
+        #endregion
+
+        #region Methods
+
+        #region Picture handing methods
 
         public void NewPicture()
         {
@@ -72,34 +84,6 @@ namespace PixelArt_Editor.GUI.Windows
                     AddImageEditor(editor, name);
                 }
             }
-        }
-
-        private void Menu_File_New_Click(object sender, RoutedEventArgs e)
-        {
-            NewPicture();
-        }
-
-        private void Menu_File_Load_Click(object sender, RoutedEventArgs e)
-        {
-            LoadPicture();
-        }
-
-        private void AddImageEditor(ImageEditor editor, string name)
-        {
-            TabItemHeader header = new TabItemHeader(TC_tabs, name, editor);
-            TC_tabs.Items.Add(header);
-
-            TC_tabs.SelectedIndex = TC_tabs.Items.Count - 1;
-        }
-
-        private void Menu_File_Save_Click(object sender, RoutedEventArgs e)
-        {
-            Save();
-        }
-
-        private void Menu_File_SaveAs_Click(object sender, RoutedEventArgs e)
-        {
-            SaveAs();
         }
 
         private void Save()
@@ -155,6 +139,10 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        #endregion
+
+        #region Supportive methods
+
         private ImageEditor GetSelectedImageEditor()
         {
             if (TC_tabs.SelectedIndex != -1)
@@ -184,6 +172,45 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        private void AddImageEditor(ImageEditor editor, string name)
+        {
+            TabItemHeader header = new TabItemHeader(TC_tabs, name, editor);
+            TC_tabs.Items.Add(header);
+
+            TC_tabs.SelectedIndex = TC_tabs.Items.Count - 1;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Event handlers
+
+        private void Menu_File_New_Click(object sender, RoutedEventArgs e)
+        {
+            NewPicture();
+        }
+
+        private void Menu_File_Load_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPicture();
+        }
+
+        private void Menu_File_Save_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Menu_File_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void Menu_File_CloseProgram_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         private void TC_tabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (GetSelectedImageEditor() != null)
@@ -198,9 +225,6 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
-        private void Menu_File_CloseProgram_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        #endregion
     }
 }

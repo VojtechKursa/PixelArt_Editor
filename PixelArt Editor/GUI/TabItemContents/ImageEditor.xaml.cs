@@ -21,6 +21,8 @@ namespace PixelArt_Editor.GUI.TabItemContents
     /// </summary>
     public partial class ImageEditor : TabItemContent
     {
+        #region Variables and Properties
+
         public string SaveLocation { get; set; } = null;
         public ImageFormat SaveFormat { get; set; } = null;
 
@@ -28,6 +30,10 @@ namespace PixelArt_Editor.GUI.TabItemContents
         private Bitmap bitmap;
         private Color currentColor = Color.Black;
         private Timer lastResize = new Timer();
+
+        #endregion
+
+        #region Constructors
 
         public ImageEditor(ImageProperties imageProperties)
         {
@@ -49,6 +55,8 @@ namespace PixelArt_Editor.GUI.TabItemContents
             CommonConstructor();
         }
 
+        #region Supportive methods
+
         private void CommonConstructor()
         {
             lastResize.Interval = 500;
@@ -61,13 +69,6 @@ namespace PixelArt_Editor.GUI.TabItemContents
             RefreshImage();
 
             RB_color1.IsChecked = true;
-        }
-
-        private void LastResize_Tick(object sender, EventArgs e)
-        {
-            lastResize.Stop();
-
-            RefreshImage();
         }
 
         private Bitmap GenerateEmptyBitmap(int width, int height, Color backgroundColor)
@@ -83,6 +84,26 @@ namespace PixelArt_Editor.GUI.TabItemContents
             }
 
             return bitmap;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        public bool SaveImage()
+        {
+            try
+            {
+                bitmap.Save(SaveLocation, SaveFormat);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void RefreshImage()
@@ -175,6 +196,17 @@ namespace PixelArt_Editor.GUI.TabItemContents
             return bitmapImage;
         }
 
+        private void UpdateSelectedColor()
+        {
+            if ((bool)RB_color1.IsChecked)
+                currentColor = CM_color1.Color;
+            else if ((bool)RB_color2.IsChecked)
+                currentColor = CM_color2.Color;
+        }
+
+        #endregion
+
+        #region Event handlers
 
         private void Img_image_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -216,6 +248,13 @@ namespace PixelArt_Editor.GUI.TabItemContents
             lastResize.Start();
         }
 
+        private void LastResize_Tick(object sender, EventArgs e)
+        {
+            lastResize.Stop();
+
+            RefreshImage();
+        }
+
         private void ImageEditor_GotFocus(object sender, RoutedEventArgs e)
         {
             RefreshImage();
@@ -231,26 +270,6 @@ namespace PixelArt_Editor.GUI.TabItemContents
             UpdateSelectedColor();
         }
 
-        private void UpdateSelectedColor()
-        {
-            if ((bool)RB_color1.IsChecked)
-                currentColor = CM_color1.Color;
-            else if ((bool)RB_color2.IsChecked)
-                currentColor = CM_color2.Color;
-        }
-
-        public bool SaveImage()
-        {
-            try
-            {
-                bitmap.Save(SaveLocation, SaveFormat);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
+        #endregion
     }
 }
