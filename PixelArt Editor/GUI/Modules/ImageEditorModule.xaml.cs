@@ -29,6 +29,7 @@ namespace PixelArt_Editor.GUI.Modules
         private Tools Tool { get => ToolbarModule.Tool; }
 
         public bool IsReadOnly { get; set; } = false;
+        public bool BlackBordersOnly { get; set; } = false;
 
         public ImageProperties ImageProperties { get; set; } = null;
         public Bitmap Bitmap { get; set; } = null;
@@ -111,7 +112,10 @@ namespace PixelArt_Editor.GUI.Modules
 
 
                 //Redraw outline of pixels that need white outline
-                pen = new Pen(Color.FromArgb(penAlpha, Color.White), penThickness);
+                if (BlackBordersOnly)
+                    pen = new Pen(Color.FromArgb(penAlpha, Color.Black), penThickness);
+                else
+                    pen = new Pen(Color.FromArgb(penAlpha, Color.White), penThickness);
 
                 foreach (int[] coord in whiteOutlinedPixels)
                 {
