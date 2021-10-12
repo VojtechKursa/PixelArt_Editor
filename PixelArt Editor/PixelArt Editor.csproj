@@ -86,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\Modules\ImageEditorModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Modules\ToolbarModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +121,9 @@
     </Compile>
     <Compile Include="GUI\Modules\ColorSelectorModule.xaml.cs">
       <DependentUpon>ColorSelectorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\ImageEditorModule.xaml.cs">
+      <DependentUpon>ImageEditorModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Modules\ToolbarModule.xaml.cs">
       <DependentUpon>ToolbarModule.xaml</DependentUpon>
