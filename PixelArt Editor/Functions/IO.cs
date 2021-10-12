@@ -7,5 +7,11 @@
             string[] pathSplit = path.Split('/', '\\');
             return pathSplit[pathSplit.Length - 1];
         }
+
+        public static string GetExtension(string path)
+        {
+            string[] nameSplit = GetNameOfFile(path).Split('.');
+            return nameSplit[nameSplit.Length - 1];
+        }
     }
 }

@@ -21,6 +21,9 @@ namespace PixelArt_Editor.GUI.TabItemContents
     /// </summary>
     public partial class ImageEditor : TabItemContent
     {
+        public string SaveLocation { get; set; } = null;
+        public ImageFormat SaveFormat { get; set; } = null;
+
         private ImageProperties imageProperties;
         private Bitmap bitmap;
         private Color currentColor = Color.Black;
@@ -234,6 +237,20 @@ namespace PixelArt_Editor.GUI.TabItemContents
                 currentColor = CM_color1.Color;
             else if ((bool)RB_color2.IsChecked)
                 currentColor = CM_color2.Color;
+        }
+
+        public bool SaveImage()
+        {
+            try
+            {
+                bitmap.Save(SaveLocation, SaveFormat);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

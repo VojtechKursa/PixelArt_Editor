@@ -1,9 +1,10 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using PixelArt_Editor.Data;
 using PixelArt_Editor.Functions;
 using PixelArt_Editor.GUI.TabItemContents;
 using System.Drawing;
 using System.Windows;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace PixelArt_Editor.GUI.Windows
 {
@@ -81,6 +82,112 @@ namespace PixelArt_Editor.GUI.Windows
             TC_tabs.Items.Add(header);
 
             TC_tabs.SelectedIndex = TC_tabs.Items.Count - 1;
+        }
+
+        private void Menu_File_Save_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void Menu_File_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void Save()
+        {
+            ImageEditor selectedImageEditor = GetSelectedImageEditor();
+
+            if (selectedImageEditor != null)
+            {
+                if (selectedImageEditor.SaveLocation == null || selectedImageEditor.SaveFormat == null)
+                    SaveAs();
+                else
+                {
+                    if (!selectedImageEditor.SaveImage())
+                        MessageBoxes.ShowError("Saving the image was unsuccessful");
+                }
+            }
+        }
+
+        private void SaveAs()
+        {
+            ImageEditor selectedImageEditor = GetSelectedImageEditor();
+
+            if (selectedImageEditor != null)
+            {
+                SaveFileDialog dialog = new SaveFileDialog()
+                {
+                    AddExtension = true,
+                    CreatePrompt = true,
+                    OverwritePrompt = true,
+                    Filter = "PNG (*.png)|*.png|JPEG (*.jpg; *.jpeg)|*.jpg;*.jpeg|Bitmap (*.bmp)|*.bmp|GIF (*.gif)|*.gif|ICON (*.icon)|*.icon|TIFF (*.tiff; *.tif)|*.tiff;*.tif",
+                    ValidateNames = true,
+                    Title = "Select a save location..."
+                };
+
+                if ((bool)dialog.ShowDialog())
+                {
+                    selectedImageEditor.SaveLocation = dialog.FileName;
+                    selectedImageEditor.Header.Header = IO.GetNameOfFile(dialog.FileName);
+
+                    switch (dialog.FilterIndex)
+                    {
+                        case 1: selectedImageEditor.SaveFormat = ImageFormat.Png; break;
+                        case 2: selectedImageEditor.SaveFormat = ImageFormat.Jpeg; break;
+                        case 3: selectedImageEditor.SaveFormat = ImageFormat.Bmp; break;
+                        case 4: selectedImageEditor.SaveFormat = ImageFormat.Gif; break;
+                        case 5: selectedImageEditor.SaveFormat = ImageFormat.Icon; break;
+                        case 6: selectedImageEditor.SaveFormat = ImageFormat.Tiff; break;
+                        default: selectedImageEditor.SaveFormat = ImageFormat.Png; break;
+                    }
+
+                    Save();
+                }
+            }
+        }
+
+        private ImageEditor GetSelectedImageEditor()
+        {
+            if (TC_tabs.SelectedIndex != -1)
+            {
+                TabItemContent selectedTab = (TabItemContent)((TabItemHeader)TC_tabs.SelectedItem).Content;
+
+                if (selectedTab is ImageEditor editor)
+                    return editor;
+            }
+
+            return null;
+        }
+
+        private ImageFormat DetermineImageFormat(string filename)
+        {
+            switch (IO.GetExtension(filename).ToLower())
+            {
+                case "png": return ImageFormat.Png;
+                case "jpg":
+                case "jpeg": return ImageFormat.Jpeg;
+                case "bmp": return ImageFormat.Bmp;
+                case "gif": return ImageFormat.Gif;
+                case "icon": return ImageFormat.Icon;
+                case "tiff":
+                case "tif": return ImageFormat.Tiff;
+                default: return null;
+            }
+        }
+
+        private void TC_tabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (GetSelectedImageEditor() != null)
+            {
+                Menu_File_Save.IsEnabled = true;
+                Menu_File_SaveAs.IsEnabled = true;
+            }
+            else
+            {
+                Menu_File_Save.IsEnabled = false;
+                Menu_File_SaveAs.IsEnabled = false;
+            }
         }
     }
 }

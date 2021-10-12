@@ -12,12 +12,12 @@
                 <MenuItem x:Name="Menu_File_New" Header="New" Click="Menu_File_New_Click"/>
                 <Separator/>
                 <MenuItem x:Name="Menu_File_Load" Header="Load" Click="Menu_File_Load_Click"/>
-                <MenuItem x:Name="Menu_File_Save" Header="Save"/>
-                <MenuItem x:Name="Menu_File_SaveAs" Header="Save as..."/>
+                <MenuItem x:Name="Menu_File_Save" Header="Save" Click="Menu_File_Save_Click" IsEnabled="False"/>
+                <MenuItem x:Name="Menu_File_SaveAs" Header="Save as..." Click="Menu_File_SaveAs_Click" IsEnabled="False"/>
                 <Separator/>
                 <MenuItem x:Name="Menu_File_CloseProgram" Header="Close program"/>
             </MenuItem>
         </Menu>
-        <TabControl x:Name="TC_tabs" Margin="0,19,0,0"/>
+        <TabControl x:Name="TC_tabs" Margin="0,19,0,0" SelectionChanged="TC_tabs_SelectionChanged"/>
     </Grid>
 </Window>
