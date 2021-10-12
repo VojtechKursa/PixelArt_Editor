@@ -29,9 +29,11 @@ namespace PixelArt_Editor.GUI.Modules
             Rect_base.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
         }
 
-        public void UpdateBaseColor()
+        public void UpdateColor(Color color)
         {
-            ColorChanged.Invoke(this, new EventArgs());
+            BaseColor = Color.FromArgb(color.R, color.G, color.B);
+            TB_alpha.Text = "0";    //By changing TB_alpha back and forth, it's certain that TB_alpha_TextChanged will be called, updating Alpha and Color and calling the ColorChanged event
+            TB_alpha.Text = color.A.ToString();
         }
 
         private void ColorChanged_EventHandler(object sender, EventArgs args)

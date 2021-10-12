@@ -28,14 +28,14 @@ namespace PixelArt_Editor.GUI.Windows
             this.mainWindow = mainWindow;
             defaultBackgroundColor = Color.White;
 
-            CM_backColor.BaseColor = Color.White;
-            CM_backColor.UpdateBaseColor();
+            CM_backColor.UpdateColor(Color.White);
             CM_backColor.ColorChanged += CM_backColor_ColorChanged;
         }
 
         public ImagePropertiesWindow(MainWindow mainWindow, ImageProperties properties) : this(mainWindow)
         {
             defaultBackgroundColor = properties.BackgroundColor;
+            CM_backColor.UpdateColor(properties.BackgroundColor);
             UpdateRectangleColor();
 
             TB_name.Text = properties.Name;
