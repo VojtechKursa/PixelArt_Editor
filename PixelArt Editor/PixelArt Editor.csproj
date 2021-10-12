@@ -102,6 +102,7 @@
     <Compile Include="Data\ImageProperties.cs" />
     <Compile Include="Functions\IO.cs" />
     <Compile Include="Functions\MessageBoxes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GUI\Modules\ColorModule.xaml.cs">
       <DependentUpon>ColorModule.xaml</DependentUpon>
     </Compile>

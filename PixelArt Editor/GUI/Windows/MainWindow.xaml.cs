@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using PixelArt_Editor.Data;
 using PixelArt_Editor.Functions;
 using PixelArt_Editor.GUI.TabItemContents;
@@ -40,8 +40,14 @@ namespace PixelArt_Editor.GUI.Windows
 
         public void LoadPicture()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            //Add filter and stuff later
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                CheckFileExists = true,
+                DereferenceLinks = true,
+                Multiselect = false,
+                Title = "Select a file to load...",
+                Filter = "PNG (*.png)|*.png|JPEG (*.jpg; *.jpeg)|*.jpg;*.jpeg|Bitmap (*.bmp)|*.bmp|GIF (*.gif)|*.gif|ICON (*.icon)|*.icon|TIFF (*.tiff; *.tif)|*.tiff;*.tif|All files (*.*)|*.*"
+            };
 
             if ((bool)dialog.ShowDialog())
             {
@@ -58,8 +64,10 @@ namespace PixelArt_Editor.GUI.Windows
 
                 if (bitmap != null)
                 {
-                    string name = Functions.IO.GetNameOfFile(dialog.FileName);
+                    string name = IO.GetNameOfFile(dialog.FileName);
                     ImageEditor editor = new ImageEditor(bitmap, name);
+                    editor.SaveLocation = dialog.FileName;
+                    editor.SaveFormat = DetermineImageFormat(name);
 
                     AddImageEditor(editor, name);
                 }
