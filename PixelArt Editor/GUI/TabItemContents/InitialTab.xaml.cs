@@ -61,7 +61,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
             }
 
             imageEditor.Bitmap = bitmap;
-            imageEditor.RefreshImage();
+            imageEditor.RerenderImage();
         }
 
         #endregion

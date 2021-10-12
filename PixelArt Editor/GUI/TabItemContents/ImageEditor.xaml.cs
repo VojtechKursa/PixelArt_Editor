@@ -49,7 +49,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
             imageEditorModule.ImageProperties = imageProperties;
             imageEditorModule.ToolbarModule = toolbar;
 
-            imageEditorModule.RefreshImage();
+            imageEditorModule.RerenderImage();
         }
 
         #endregion

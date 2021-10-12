@@ -58,16 +58,9 @@ namespace PixelArt_Editor.GUI.Modules
 
         public void Init()
         {
-            UpdateImageSize();
+            ResizeImageViewport();
             lastResize.Stop();
-            RefreshImage();
-        }
-
-        public void RefreshImage()
-        {
-            Bitmap exportBitmap = CreateExportBitmap();
-
-            Img_image.Source = BitmapToBitmapImage(exportBitmap);
+            RerenderImage();
         }
 
         public void ChangeProperties(ImageProperties newProperties)
@@ -112,10 +105,17 @@ namespace PixelArt_Editor.GUI.Modules
                 Bitmap = newBitmap;
                 ImageProperties = newProperties;
 
-                UpdateImageSize();
+                ResizeImageViewport();
                 lastResize.Stop();
-                RefreshImage();
+                RerenderImage();
             }
+        }
+
+        public void RerenderImage()
+        {
+            Bitmap exportBitmap = CreateExportBitmap();
+
+            Img_image.Source = BitmapToBitmapImage(exportBitmap);
         }
 
         private Bitmap CreateExportBitmap()
@@ -206,7 +206,7 @@ namespace PixelArt_Editor.GUI.Modules
             return bitmapImage;
         }
 
-        public void UpdateImageSize()
+        public void ResizeImageViewport()
         {
             if (Bitmap != null)
             {
@@ -257,20 +257,20 @@ namespace PixelArt_Editor.GUI.Modules
                 else if (e.RightButton == MouseButtonState.Pressed)
                     Bitmap.SetPixel(x, y, ImageProperties.BackgroundColor);
 
-                RefreshImage();
+                RerenderImage();
             }
         }
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)  //Resize and reposition Img_image
         {
-            UpdateImageSize();
+            ResizeImageViewport();
         }
 
         private void LastResize_Tick(object sender, EventArgs e)
         {
             lastResize.Stop();
 
-            RefreshImage();
+            RerenderImage();
         }
 
         #endregion
