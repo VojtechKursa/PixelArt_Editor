@@ -26,7 +26,7 @@ namespace PixelArt_Editor.GUI.Modules
 
             InitializeComponent();
 
-            Rect_color.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
+            Rect_base.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
         }
 
         public void UpdateBaseColor()
@@ -36,10 +36,10 @@ namespace PixelArt_Editor.GUI.Modules
 
         private void ColorChanged_EventHandler(object sender, EventArgs args)
         {
-            Rect_color.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
+            Rect_base.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
         }
 
-        private void ChangeColor_EventHandler(object sender, RoutedEventArgs e)
+        private void ChangeBaseColor_EventHandler(object sender, RoutedEventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog()
             {
