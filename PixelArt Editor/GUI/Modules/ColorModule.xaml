@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="PixelArt_Editor.GUI.Modules.ColorModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PixelArt_Editor.GUI.Modules"
+             mc:Ignorable="d" 
+             d:DesignHeight="52" d:DesignWidth="70">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Color:" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,0,2"/>
+        <Rectangle x:Name="Rect_color" Fill="#FFF4F4F5" Margin="46,2,0,2" Stroke="Black"/>
+        <Button x:Name="B_changeColor" Content="Change" Click="B_changeColor_Click" Margin="0,2,0,0" Grid.Row="1"/>
+    </Grid>
+</UserControl>

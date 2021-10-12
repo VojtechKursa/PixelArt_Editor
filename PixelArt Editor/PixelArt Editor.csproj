@@ -78,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="GUI\Modules\ColorModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\TabItemContents\ImageEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +102,9 @@
     <Compile Include="Data\ImageProperties.cs" />
     <Compile Include="Functions\IO.cs" />
     <Compile Include="Functions\MessageBoxes.cs" />
+    <Compile Include="GUI\Modules\ColorModule.xaml.cs">
+      <DependentUpon>ColorModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\TabItemContent.cs" />
     <Compile Include="GUI\TabItemHeader.cs" />
     <Compile Include="GUI\TabItemContents\ImageEditor.xaml.cs">

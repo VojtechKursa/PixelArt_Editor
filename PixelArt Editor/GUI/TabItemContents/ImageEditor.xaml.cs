@@ -22,6 +22,7 @@ using Point = System.Windows.Point;
 using Brush = System.Drawing.Brush;
 using Pen = System.Drawing.Pen;
 using Rectangle = System.Drawing.Rectangle;
+using PixelArt_Editor.Functions;
 
 namespace PixelArt_Editor.GUI.TabItemContents
 {
@@ -61,7 +62,12 @@ namespace PixelArt_Editor.GUI.TabItemContents
             lastResize.Enabled = false;
             lastResize.Tick += LastResize_Tick;
 
+            CM_color1.ColorChanged += CM_ColorChanged_EventHandler;
+            CM_color2.ColorChanged += CM_ColorChanged_EventHandler;
+
             RefreshImage();
+
+            RB_color1.IsChecked = true;
         }
 
         private void LastResize_Tick(object sender, EventArgs e)
@@ -177,14 +183,17 @@ namespace PixelArt_Editor.GUI.TabItemContents
         }
 
 
-        private void Img_image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Img_image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point clickPoint = e.GetPosition(Img_image);
 
             int x = (int)Math.Floor((clickPoint.X / (double)Img_image.ActualWidth) * imageProperties.Width);
             int y = (int)Math.Floor((clickPoint.Y / (double)Img_image.ActualHeight) * imageProperties.Height);
 
-            bitmap.SetPixel(x, y, currentColor);
+            if (e.LeftButton == MouseButtonState.Pressed)
+                bitmap.SetPixel(x, y, currentColor);
+            else if (e.RightButton == MouseButtonState.Pressed)
+                bitmap.SetPixel(x, y, imageProperties.BackgroundColor);
 
             RefreshImage();
         }
@@ -217,6 +226,24 @@ namespace PixelArt_Editor.GUI.TabItemContents
         private void ImageEditor_GotFocus(object sender, RoutedEventArgs e)
         {
             RefreshImage();
+        }
+
+        private void ColorSelectionChanged_EventHandler(object sender, RoutedEventArgs e)
+        {
+            UpdateSelectedColor();
+        }
+
+        private void CM_ColorChanged_EventHandler(object sender, EventArgs args)
+        {
+            UpdateSelectedColor();
+        }
+
+        private void UpdateSelectedColor()
+        {
+            if ((bool)RB_color1.IsChecked)
+                currentColor = CM_color1.Color;
+            else if ((bool)RB_color2.IsChecked)
+                currentColor = CM_color2.Color;
         }
     }
 }
