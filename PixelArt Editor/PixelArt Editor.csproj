@@ -86,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\Modules\ToolbarModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\TabItemContents\ImageEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,6 +106,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Tools.cs" />
     <Compile Include="Functions\Converters.cs" />
     <Compile Include="Data\ImageProperties.cs" />
     <Compile Include="Functions\IO.cs" />
@@ -112,6 +117,9 @@
     </Compile>
     <Compile Include="GUI\Modules\ColorSelectorModule.xaml.cs">
       <DependentUpon>ColorSelectorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\ToolbarModule.xaml.cs">
+      <DependentUpon>ToolbarModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TabItemContent.cs" />
     <Compile Include="GUI\TabItemHeader.cs" />
