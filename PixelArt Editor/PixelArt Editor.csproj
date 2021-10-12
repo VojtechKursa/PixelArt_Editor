@@ -82,6 +82,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\Modules\ColorSelectorModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\TabItemContents\ImageEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +109,9 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GUI\Modules\ColorModule.xaml.cs">
       <DependentUpon>ColorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\ColorSelectorModule.xaml.cs">
+      <DependentUpon>ColorSelectorModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TabItemContent.cs" />
     <Compile Include="GUI\TabItemHeader.cs" />

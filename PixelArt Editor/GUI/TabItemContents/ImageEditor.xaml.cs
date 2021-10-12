@@ -63,12 +63,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
             lastResize.Enabled = false;
             lastResize.Tick += LastResize_Tick;
 
-            CM_color1.ColorChanged += CM_ColorChanged_EventHandler;
-            CM_color2.ColorChanged += CM_ColorChanged_EventHandler;
-
             RefreshImage();
-
-            RB_color1.IsChecked = true;
         }
 
         private Bitmap GenerateEmptyBitmap(int width, int height, Color backgroundColor)
@@ -198,14 +193,6 @@ namespace PixelArt_Editor.GUI.TabItemContents
             return bitmapImage;
         }
 
-        private void UpdateSelectedColor()
-        {
-            if ((bool)RB_color1.IsChecked)
-                currentColor = CM_color1.Color;
-            else if ((bool)RB_color2.IsChecked)
-                currentColor = CM_color2.Color;
-        }
-
         #endregion
 
         #region Event handlers
@@ -260,16 +247,6 @@ namespace PixelArt_Editor.GUI.TabItemContents
         private void ImageEditor_GotFocus(object sender, RoutedEventArgs e)
         {
             RefreshImage();
-        }
-
-        private void ColorSelectionChanged_EventHandler(object sender, RoutedEventArgs e)
-        {
-            UpdateSelectedColor();
-        }
-
-        private void CM_ColorChanged_EventHandler(object sender, EventArgs args)
-        {
-            UpdateSelectedColor();
         }
 
         #endregion
