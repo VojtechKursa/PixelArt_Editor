@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PixelArt_Editor.GUI.Windows;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PixelArt_Editor.GUI.Windows;
 
 namespace PixelArt_Editor.GUI.TabItemContents
 {
@@ -21,7 +8,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
     /// </summary>
     public partial class InitialTab : TabItemContent
     {
-        MainWindow mainWindow;
+        private MainWindow mainWindow;
 
         public InitialTab(MainWindow mainWindow)
         {

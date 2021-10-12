@@ -1,28 +1,18 @@
-﻿using System;
+﻿using PixelArt_Editor.Data;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PixelArt_Editor.Data;
-using Color = System.Drawing.Color;
-using System.IO;
-using System.Drawing.Imaging;
-using Point = System.Windows.Point;
 using Brush = System.Drawing.Brush;
+using Color = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
-using Rectangle = System.Drawing.Rectangle;
-using PixelArt_Editor.Functions;
+using Point = System.Windows.Point;
 
 namespace PixelArt_Editor.GUI.TabItemContents
 {
@@ -31,10 +21,10 @@ namespace PixelArt_Editor.GUI.TabItemContents
     /// </summary>
     public partial class ImageEditor : TabItemContent
     {
-        ImageProperties imageProperties;
-        Bitmap bitmap;
-        Color currentColor = Color.Black;
-        Timer lastResize = new Timer();
+        private ImageProperties imageProperties;
+        private Bitmap bitmap;
+        private Color currentColor = Color.Black;
+        private Timer lastResize = new Timer();
 
         public ImageEditor(ImageProperties imageProperties)
         {

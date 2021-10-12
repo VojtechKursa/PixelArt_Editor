@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PixelArt_Editor.Functions;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
-using UserControl = System.Windows.Controls.UserControl;
+using System.Windows.Media;
 using Color = System.Drawing.Color;
-using PixelArt_Editor.Functions;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace PixelArt_Editor.GUI.Modules
 {

@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PixelArt_Editor.GUI;
-using PixelArt_Editor.GUI.TabItemContents;
+﻿using Microsoft.Win32;
 using PixelArt_Editor.Data;
-using System.IO;
-using Microsoft.Win32;
-using System.Drawing;
 using PixelArt_Editor.Functions;
+using PixelArt_Editor.GUI.TabItemContents;
+using System.Drawing;
+using System.Windows;
 
 namespace PixelArt_Editor.GUI.Windows
 {

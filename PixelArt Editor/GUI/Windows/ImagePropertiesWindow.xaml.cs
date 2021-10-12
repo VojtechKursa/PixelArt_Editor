@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using PixelArt_Editor.Data;
-using Color = System.Drawing.Color;
-using System.Windows.Forms;
+﻿using PixelArt_Editor.Data;
 using PixelArt_Editor.Functions;
+using System;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace PixelArt_Editor.GUI.Windows
 {
@@ -23,8 +13,8 @@ namespace PixelArt_Editor.GUI.Windows
     /// </summary>
     public partial class PicturePropertiesWindow : Window
     {
-        MainWindow mainWindow;
-        Color defaultBackgroundColor;
+        private MainWindow mainWindow;
+        private Color defaultBackgroundColor;
 
         public PicturePropertiesWindow(MainWindow mainWindow)
         {
@@ -83,7 +73,7 @@ namespace PixelArt_Editor.GUI.Windows
         private void B_changeBackColor_Click(object sender, RoutedEventArgs e)
         {
             ColorDialog dialog = new ColorDialog();
-            if(dialog.ShowDialog()==System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 defaultBackgroundColor = dialog.Color;
                 UpdateRectangleColor();
