@@ -70,19 +70,11 @@ namespace PixelArt_Editor.GUI.Modules
                 Bitmap newBitmap = Bitmaps.GenerateEmptyBitmap(newProperties.Width, newProperties.Height, newProperties.BackgroundColor);
 
                 if (newProperties.ResizeMode == ImageResizeMode.BottomRight)
-                {
-                    int horizontalLimit = newBitmap.Width < Bitmap.Width ? newBitmap.Width : Bitmap.Width;
-                    int verticalLimit = newBitmap.Height < Bitmap.Height ? newBitmap.Height : Bitmap.Height;
+                    ResizeBotomRight(Bitmap, newBitmap);
+                else if (newProperties.ResizeMode == ImageResizeMode.Centered)
+                    ResizeCentered(Bitmap, newBitmap);
 
-                    //Copy what I can
-                    for (int y = 0; y < verticalLimit; y++)
-                    {
-                        for (int x = 0; x < horizontalLimit; x++)
-                        {
-                            newBitmap.SetPixel(x, y, Bitmap.GetPixel(x, y));
-                        }
-                    }
-                }
+                RecolorBackground(newBitmap, ImageProperties.BackgroundColor, newProperties.BackgroundColor);
 
                 Bitmap = newBitmap;
                 ImageProperties = newProperties;
@@ -91,6 +83,81 @@ namespace PixelArt_Editor.GUI.Modules
                 lastResize.Stop();
                 RerenderImage();
             }
+        }
+
+        private void RecolorBackground(Bitmap bitmap, Color originalBackColor, Color newBackColor)
+        {
+            if (originalBackColor.ToArgb() != newBackColor.ToArgb())
+            {
+                int originalColorARGB = originalBackColor.ToArgb();
+
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    for (int x = 0; x < bitmap.Width; x++)
+                    {
+                        if (bitmap.GetPixel(x, y).ToArgb() == originalColorARGB)
+                        {
+                            bitmap.SetPixel(x, y, newBackColor);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ResizeBotomRight(Bitmap originalBitmap, Bitmap newBitmap)
+        {
+            int horizontalLimit = newBitmap.Width < originalBitmap.Width ? newBitmap.Width : originalBitmap.Width;
+            int verticalLimit = newBitmap.Height < originalBitmap.Height ? newBitmap.Height : originalBitmap.Height;
+
+            for (int y = 0; y < verticalLimit; y++)
+            {
+                for (int x = 0; x < horizontalLimit; x++)
+                {
+                    newBitmap.SetPixel(x, y, originalBitmap.GetPixel(x, y));
+                }
+            }
+        }
+
+        private void ResizeCentered(Bitmap originalBitmap, Bitmap newBitmap)
+        {
+            Thickness margin = CalculateMargin(originalBitmap, newBitmap);
+
+            int horizontalStartPoint = newBitmap.Width < originalBitmap.Width ? 0 : (int)margin.Left;
+            int verticalStartPoint = newBitmap.Height < originalBitmap.Height ? 0 : (int)margin.Top;
+
+            int horizontalLimit = Math.Min(originalBitmap.Width, newBitmap.Width) + horizontalStartPoint;
+            int verticalLimit = Math.Min(originalBitmap.Height, newBitmap.Height) + verticalStartPoint;
+
+            int horizontalShift = newBitmap.Width < originalBitmap.Width ? (int)margin.Left : -(int)margin.Left;
+            int verticalShift = newBitmap.Height < originalBitmap.Height ? (int)margin.Top : -(int)margin.Top; ;
+
+            for (int y = verticalStartPoint; y < verticalLimit; y++)
+            {
+                for (int x = horizontalStartPoint; x < horizontalLimit; x++)
+                {
+                    newBitmap.SetPixel(x, y, originalBitmap.GetPixel(x + horizontalShift, y + verticalShift));
+                }
+            }
+        }
+
+        private Thickness CalculateMargin(Bitmap originalBitmap, Bitmap newBitmap)
+        {
+            int marginHorizontal = Math.Abs(originalBitmap.Width - newBitmap.Width);
+            int marginVertical = Math.Abs(originalBitmap.Height - newBitmap.Height);
+
+            int marginLeft;
+            int marginRight;
+            marginLeft = marginRight = marginHorizontal / 2;
+            if (marginHorizontal % 2 != 0)
+                marginLeft++;
+
+            int marginTop;
+            int marginBottom;
+            marginTop = marginBottom = marginVertical / 2;
+            if (marginVertical % 2 != 0)
+                marginTop++;
+
+            return new Thickness(marginLeft, marginTop, marginRight, marginBottom);
         }
 
         public void RerenderImage()
@@ -243,7 +310,7 @@ namespace PixelArt_Editor.GUI.Modules
             }
         }
 
-        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)  //Resize and reposition Img_image
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ResizeImageViewport();
         }
