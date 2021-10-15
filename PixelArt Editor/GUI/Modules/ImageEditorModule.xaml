@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Canvas x:Name="Canvas" SizeChanged="Canvas_SizeChanged">
-        <Image x:Name="Img_image" MouseDown="Img_image_MouseDown" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image x:Name="Img_image" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="Img_image_MouseDown" MouseMove="Img_image_MouseMove" MouseUp="Img_image_MouseUp"/>
     </Canvas>
 </UserControl>

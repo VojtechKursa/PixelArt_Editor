@@ -12,6 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Brush = System.Drawing.Brush;
 using Color = System.Drawing.Color;
+using DrawingPoint = System.Drawing.Point;
+using DrawingSize = System.Drawing.Size;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Pen = System.Drawing.Pen;
 using Point = System.Windows.Point;
 using UserControl = System.Windows.Controls.UserControl;
@@ -28,6 +31,7 @@ namespace PixelArt_Editor.GUI.Modules
         public ToolbarModule ToolbarModule { get; set; } = null;
         private Color Color { get => ToolbarModule.Color; }
         private Tools Tool { get => ToolbarModule.Tool; }
+        private int LineWidth { get => ToolbarModule.LineWidth; }
 
         public bool IsReadOnly { get; set; } = false;
         public bool BlackBordersOnly { get; set; } = false;
@@ -35,6 +39,8 @@ namespace PixelArt_Editor.GUI.Modules
         public ImageProperties ImageProperties { get; set; } = null;
         public Bitmap Bitmap { get; set; } = null;
         private readonly Timer lastResize = new Timer();
+
+        private int[] dragBeginCoords = null;
 
         #endregion
 
@@ -67,6 +73,8 @@ namespace PixelArt_Editor.GUI.Modules
         {
             if (newProperties.ResizeMode != ImageResizeMode.Unset)
             {
+                ToolbarModule.MaxLineWidth = Math.Max(newProperties.Width, newProperties.Height);
+
                 Bitmap newBitmap = Bitmaps.GenerateEmptyBitmap(newProperties.Width, newProperties.Height, newProperties.BackgroundColor);
 
                 if (newProperties.ResizeMode == ImageResizeMode.BottomRight)
@@ -288,6 +296,16 @@ namespace PixelArt_Editor.GUI.Modules
             }
         }
 
+        private int[] GetBitmapClickCoords(MouseEventArgs e)
+        {
+            Point clickPoint = e.GetPosition(Img_image);
+
+            int x = (int)Math.Floor((clickPoint.X / (double)Img_image.ActualWidth) * ImageProperties.Width);
+            int y = (int)Math.Floor((clickPoint.Y / (double)Img_image.ActualHeight) * ImageProperties.Height);
+
+            return new int[] { x, y };
+        }
+
         #endregion
 
         #region Event handlers
@@ -296,17 +314,99 @@ namespace PixelArt_Editor.GUI.Modules
         {
             if (!IsReadOnly)
             {
-                Point clickPoint = e.GetPosition(Img_image);
+                int[] clickCoords = GetBitmapClickCoords(e);
 
-                int x = (int)Math.Floor((clickPoint.X / (double)Img_image.ActualWidth) * ImageProperties.Width);
-                int y = (int)Math.Floor((clickPoint.Y / (double)Img_image.ActualHeight) * ImageProperties.Height);
-
-                if (e.LeftButton == MouseButtonState.Pressed)
-                    Bitmap.SetPixel(x, y, Color);
-                else if (e.RightButton == MouseButtonState.Pressed)
-                    Bitmap.SetPixel(x, y, ImageProperties.BackgroundColor);
+                if (Tool == Tools.Brush)
+                {
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                        Bitmap.SetPixel(clickCoords[0], clickCoords[1], Color);
+                    else if (e.RightButton == MouseButtonState.Pressed)
+                        Bitmap.SetPixel(clickCoords[0], clickCoords[1], ImageProperties.BackgroundColor);
+                }
+                else
+                {
+                    dragBeginCoords = clickCoords;
+                }
 
                 RerenderImage();
+            }
+        }
+
+        private void Img_image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsReadOnly)
+            {
+                if (Tool != Tools.Brush)
+                {
+                    Color appliedColor = e.ChangedButton.Equals(MouseButton.Right) ? ImageProperties.BackgroundColor : Color;
+
+                    int[] dragReleaseCoords = GetBitmapClickCoords(e);
+
+                    Graphics graphics = Graphics.FromImage(Bitmap);
+
+                    if (Tool == Tools.Line)
+                    {
+                        Pen pen = new Pen(appliedColor, LineWidth);
+
+                        graphics.DrawLine(pen, dragBeginCoords[0], dragBeginCoords[1], dragReleaseCoords[0], dragReleaseCoords[1]);
+                    }
+                    else if (Tool == Tools.RectangleEmpty || Tool == Tools.RectangleFilled)
+                    {
+                        DrawingPoint anchor = new DrawingPoint(Math.Min(dragBeginCoords[0], dragReleaseCoords[0]), Math.Min(dragBeginCoords[1], dragReleaseCoords[1]));
+                        DrawingSize size = new DrawingSize(Math.Abs(dragBeginCoords[0] - dragReleaseCoords[0]), Math.Abs(dragBeginCoords[1] - dragReleaseCoords[1]));
+
+                        Rectangle rectangle = new Rectangle(anchor, size);
+
+                        if (Tool == Tools.RectangleEmpty)
+                        {
+                            Pen pen = new Pen(appliedColor, LineWidth);
+
+                            graphics.DrawRectangle(pen, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+                        }
+                        else if (Tool == Tools.RectangleFilled)
+                        {
+                            Brush brush = new SolidBrush(appliedColor);
+
+                            graphics.FillRectangle(brush, rectangle.X, rectangle.Y, rectangle.Width + 1, rectangle.Height + 1);
+                        }
+                    }
+
+                    RerenderImage();
+                }
+            }
+        }
+
+        private void Img_image_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!IsReadOnly)
+            {
+                if (Tool == Tools.Brush)
+                {
+                    bool rerender = false;
+
+                    int[] clickCoords = GetBitmapClickCoords(e);
+                    int clickedPixelColor = Bitmap.GetPixel(clickCoords[0], clickCoords[1]).ToArgb();
+
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                    {
+                        if (clickedPixelColor != Color.ToArgb())
+                        {
+                            Bitmap.SetPixel(clickCoords[0], clickCoords[1], Color);
+                            rerender = true;
+                        }
+                    }
+                    else if (e.RightButton == MouseButtonState.Pressed)
+                    {
+                        if (clickedPixelColor != ImageProperties.BackgroundColor.ToArgb())
+                        {
+                            Bitmap.SetPixel(clickCoords[0], clickCoords[1], ImageProperties.BackgroundColor);
+                            rerender = true;
+                        }
+                    }
+
+                    if (rerender)
+                        RerenderImage();
+                }
             }
         }
 

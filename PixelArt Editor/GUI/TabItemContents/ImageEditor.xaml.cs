@@ -1,6 +1,7 @@
 ﻿using PixelArt_Editor.Data;
 using PixelArt_Editor.Functions;
 using PixelArt_Editor.GUI.Modules;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
@@ -48,6 +49,7 @@ namespace PixelArt_Editor.GUI.TabItemContents
             imageEditorModule.Bitmap = bitmap;
             imageEditorModule.ImageProperties = imageProperties;
             imageEditorModule.ToolbarModule = toolbar;
+            toolbar.MaxLineWidth = Math.Max(bitmap.Height, bitmap.Width);
 
             imageEditorModule.RerenderImage();
         }

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" GotFocus="ImageEditor_GotFocus">
     <Grid>
-        <Modules:ToolbarModule x:Name="toolbar" HorizontalAlignment="Right" Margin="0,10,10,10" Width="110"/>
-        <Modules:ImageEditorModule x:Name="imageEditorModule" Margin="0,0,125,0"/>
+        <Modules:ToolbarModule x:Name="toolbar" HorizontalAlignment="Right" Margin="0,10,10,10" Width="140"/>
+        <Modules:ImageEditorModule x:Name="imageEditorModule" Margin="0,0,155,0"/>
     </Grid>
 </local:TabItemContent>

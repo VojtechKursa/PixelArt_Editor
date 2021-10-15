@@ -90,6 +90,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\Modules\LineWidthModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\ToolsModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Modules\ToolbarModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +133,12 @@
     </Compile>
     <Compile Include="GUI\Modules\ImageEditorModule.xaml.cs">
       <DependentUpon>ImageEditorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\LineWidthModule.xaml.cs">
+      <DependentUpon>LineWidthModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\ToolsModule.xaml.cs">
+      <DependentUpon>ToolsModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Modules\ToolbarModule.xaml.cs">
       <DependentUpon>ToolbarModule.xaml</DependentUpon>
@@ -193,6 +207,17 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\Brush.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RectangleFilled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RectangleEmpty.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
