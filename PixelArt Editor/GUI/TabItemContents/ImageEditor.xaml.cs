@@ -16,8 +16,19 @@ namespace PixelArt_Editor.GUI.TabItemContents
     {
         #region Variables and Properties
 
+        /// <summary>
+        /// Gets the path to a file the image is being saved to.
+        /// </summary>
         public string SaveLocation { get; set; } = null;
+
+        /// <summary>
+        /// Gets the <see cref="ImageFormat"/> the image is being saved to.
+        /// </summary>
         public ImageFormat SaveFormat { get; set; } = null;
+
+        /// <summary>
+        /// Gets the <see cref="ImageEditorModule"/> inside this <see cref="ImageEditor"/>.
+        /// </summary>
         public ImageEditorModule EditorModule { get => imageEditorModule; }
 
         #endregion
@@ -60,6 +71,10 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         #region Methods
 
+        /// <summary>
+        /// Saves the current bitmap (in <see cref="ImageEditorModule.Bitmap"/>) into the selected <see cref="SaveLocation"/> and <see cref="SaveFormat"/>.
+        /// </summary>
+        /// <returns>True if successful, otherwise false.</returns>
         public bool SaveImage()
         {
             try

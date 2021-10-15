@@ -11,10 +11,31 @@ namespace PixelArt_Editor.GUI.Modules
     /// </summary>
     public partial class ToolsModule : UserControl
     {
+        #region Variables and Properties
+
+        /// <summary>
+        /// Gets or sets the brush that's used to color the background of UNselected tool icons.
+        /// </summary>
         protected Brush UnselectedButtonBrush { get; set; } = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+
+        /// <summary>
+        /// Gets or sets the brush that's used to color the background of the selected tool icon.
+        /// </summary>
         protected Brush SelectedButtonBrush { get; set; } = new SolidColorBrush(Color.FromRgb(156, 160, 255));
+
+        /// <summary>
+        /// Gets the list of all tool buttons.
+        /// </summary>
         protected List<Button> ButtonList { get; } = new List<Button>();
+
+        /// <summary>
+        /// Gets the currently selected tool.
+        /// </summary>
         public Tools ActiveTool { get; protected set; } = Tools.Brush;
+
+        #endregion
+
+        #region Constructors
 
         public ToolsModule()
         {
@@ -28,7 +49,11 @@ namespace PixelArt_Editor.GUI.Modules
             Recolor();
         }
 
-        public void Recolor()
+        #endregion
+
+        #region Methods
+
+        protected void Recolor()
         {
             foreach (Button button in ButtonList)
             {
@@ -43,6 +68,10 @@ namespace PixelArt_Editor.GUI.Modules
                 case Tools.RectangleFilled: B_rectangleFilled.Background = SelectedButtonBrush; break;
             }
         }
+
+        #endregion
+
+        #region Event handlers
 
         private void B_brush_Click(object sender, RoutedEventArgs e)
         {
@@ -71,5 +100,7 @@ namespace PixelArt_Editor.GUI.Modules
 
             Recolor();
         }
+
+        #endregion
     }
 }

@@ -2,8 +2,14 @@
 
 namespace PixelArt_Editor.Data
 {
+    /// <summary>
+    /// Defines the ImageResizeMode to be used when resizing an image
+    /// </summary>
     public enum ImageResizeMode { Centered, BottomRight, Unset }
 
+    /// <summary>
+    /// Defines properties of an image
+    /// </summary>
     public class ImageProperties
     {
         public string Name { get; }

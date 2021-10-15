@@ -62,6 +62,9 @@ namespace PixelArt_Editor.GUI.Modules
 
         #region Methods
 
+        /// <summary>
+        /// Initializes the <see cref="ImageEditorModule"/> by resizing the image viewport appropriately and rendering the current <see cref="Bitmap"/>.
+        /// </summary>
         public void Init()
         {
             ResizeImageViewport();
@@ -69,6 +72,10 @@ namespace PixelArt_Editor.GUI.Modules
             RerenderImage();
         }
 
+        /// <summary>
+        /// Changes properties of the current image (<see cref="Bitmap"/>).
+        /// </summary>
+        /// <param name="newProperties">The properties to change to.</param>
         public void ChangeProperties(ImageProperties newProperties)
         {
             if (newProperties.ResizeMode != ImageResizeMode.Unset)
@@ -168,6 +175,9 @@ namespace PixelArt_Editor.GUI.Modules
             return new Thickness(marginLeft, marginTop, marginRight, marginBottom);
         }
 
+        /// <summary>
+        /// Forces rerendering of the current image.
+        /// </summary>
         public void RerenderImage()
         {
             Bitmap exportBitmap = CreateExportBitmap();
@@ -263,6 +273,9 @@ namespace PixelArt_Editor.GUI.Modules
             return bitmapImage;
         }
 
+        /// <summary>
+        /// Forces resizing of the image viewport.
+        /// </summary>
         public void ResizeImageViewport()
         {
             if (Bitmap != null)

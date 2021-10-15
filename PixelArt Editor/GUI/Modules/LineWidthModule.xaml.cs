@@ -9,7 +9,14 @@ namespace PixelArt_Editor.GUI.Modules
     /// </summary>
     public partial class LineWidthModule : UserControl
     {
+        /// <summary>
+        /// Returns the currently selected line width.
+        /// </summary>
         public int LineWidth { get => (int)Slider_lineWidth.Value; }
+
+        /// <summary>
+        /// Gets or sets the maximum line width selectable by this control.
+        /// </summary>
         public int MaxLineWidth
         {
             get => (int)Slider_lineWidth.Maximum;

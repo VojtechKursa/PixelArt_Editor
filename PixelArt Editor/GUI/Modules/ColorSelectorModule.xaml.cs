@@ -12,6 +12,9 @@ namespace PixelArt_Editor.GUI.Modules
     /// </summary>
     public partial class ColorSelectorModule : UserControl
     {
+        /// <summary>
+        /// Gets the currently selected color.
+        /// </summary>
         public Color Color { get; set; } = Color.Black;
 
         public ColorSelectorModule()

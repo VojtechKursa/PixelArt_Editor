@@ -13,12 +13,35 @@ namespace PixelArt_Editor.GUI.Modules
     /// </summary>
     public partial class ColorModule : UserControl
     {
+        #region Variables and Properties
+
+        /// <summary>
+        /// Gets the Alpha value of the currently selected <see cref="Color"/>.
+        /// </summary>
         public int Alpha { get; set; } = 255;
+
+        /// <summary>
+        /// Gets the base color (without the <see cref="Alpha"/> value) of the currently selected <see cref="Color"/>.
+        /// </summary>
         public Color BaseColor { get; set; } = Color.Black;
 
+        /// <summary>
+        /// Gets the currently selected Color.
+        /// </summary>
         public Color Color { get; set; } = Color.Black;
 
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event that's called when the selected color changes.
+        /// </summary>
         public event EventHandler ColorChanged;
+
+        #endregion
+
+        #region Constructors
 
         public ColorModule()
         {
@@ -29,6 +52,14 @@ namespace PixelArt_Editor.GUI.Modules
             Rect_base.Fill = new SolidColorBrush(Converters.ConvertColor(BaseColor));
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Sets the <see cref="Color"/> and updates the GUI.
+        /// </summary>
+        /// <param name="color">Color to set.</param>
         public void UpdateColor(Color color)
         {
             BaseColor = Color.FromArgb(color.R, color.G, color.B);
@@ -85,5 +116,7 @@ namespace PixelArt_Editor.GUI.Modules
         {
             TB_alpha.Text = Color.A.ToString();
         }
+
+        #endregion
     }
 }

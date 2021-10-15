@@ -36,6 +36,10 @@ namespace PixelArt_Editor.GUI.Windows
 
         #region Picture handing methods
 
+        /// <summary>
+        /// Initiates creation of a new picture.<br />
+        /// Creates a new <see cref="ImagePropertiesWindow"/> and creates a new image based on the entered values.
+        /// </summary>
         public void NewPicture()
         {
             ImagePropertiesWindow dialog = new ImagePropertiesWindow(this);
@@ -50,6 +54,9 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        /// <summary>
+        /// Initiates loading a picture from a file.
+        /// </summary>
         public void LoadPicture()
         {
             OpenFileDialog dialog = new OpenFileDialog()
@@ -86,6 +93,9 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        /// <summary>
+        /// Saves the currently active image into a it's file or calls the <see cref="SaveAs"/> if it doesn't have a file yet.
+        /// </summary>
         private void Save()
         {
             ImageEditor selectedImageEditor = GetSelectedImageEditor();
@@ -102,6 +112,9 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        /// <summary>
+        /// Initiates saving of the currently active picture to the file selected through a <see cref="SaveFileDialog"/> launched by this method.
+        /// </summary>
         private void SaveAs()
         {
             ImageEditor selectedImageEditor = GetSelectedImageEditor();
@@ -143,6 +156,10 @@ namespace PixelArt_Editor.GUI.Windows
 
         #region Supportive methods
 
+        /// <summary>
+        /// Returns the currently active <see cref="ImageEditor"/>.
+        /// </summary>
+        /// <returns>The currently active <see cref="ImageEditor"/>.</returns>
         private ImageEditor GetSelectedImageEditor()
         {
             if (TC_tabs.SelectedIndex != -1)
@@ -172,6 +189,11 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        /// <summary>
+        /// Adds a new <see cref="ImageEditor"/> to the main tab control.
+        /// </summary>
+        /// <param name="editor">The editor to add.</param>
+        /// <param name="name">The name of the newly created tab (that's gonna be displayed in it's header).</param>
         private void AddImageEditor(ImageEditor editor, string name)
         {
             TabItemHeader header = new TabItemHeader(TC_tabs, name, editor);
