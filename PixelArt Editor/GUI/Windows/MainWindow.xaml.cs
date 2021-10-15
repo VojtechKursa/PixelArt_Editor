@@ -230,6 +230,11 @@ namespace PixelArt_Editor.GUI.Windows
             }
         }
 
+        private void Menu_Help_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Left click: Use tool/Draw\nRight click: Erase\n\nColor selector, tools and line width selector are on the right.\n\nHave fun.", "Controls", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+        }
+
         private void TC_tabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (GetSelectedImageEditor() != null)
