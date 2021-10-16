@@ -35,27 +35,28 @@ namespace PixelArt_Editor.GUI.TabItemContents
 
         #region Constructors
 
-        public ImageEditor(ImageProperties imageProperties)
+        private ImageEditor()
+        {
+            InitializeComponent();
+        }
+
+        public ImageEditor(ImageProperties imageProperties) : this()
         {
             Bitmap bitmap = Bitmaps.GenerateEmptyBitmap(imageProperties.Width, imageProperties.Height, imageProperties.BackgroundColor);
 
-            InitializeComponent();
-
-            CommonConstructor(imageProperties, bitmap);
+            PostInit(imageProperties, bitmap);
         }
 
-        public ImageEditor(Bitmap bitmap, string name)
+        public ImageEditor(Bitmap bitmap, string name) : this()
         {
             ImageProperties imageProperties = new ImageProperties(name, bitmap.Width, bitmap.Height, Color.White);
 
-            InitializeComponent();
-
-            CommonConstructor(imageProperties, bitmap);
+            PostInit(imageProperties, bitmap);
         }
 
         #region Supportive methods
 
-        private void CommonConstructor(ImageProperties imageProperties, Bitmap bitmap)
+        private void PostInit(ImageProperties imageProperties, Bitmap bitmap)
         {
             imageEditorModule.Bitmap = bitmap;
             imageEditorModule.ImageProperties = imageProperties;
